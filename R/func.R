@@ -1,3 +1,31 @@
+decomp.2D <- function(x,family="DaubLeAsymm",fil.num=4,min.level=2){
+  # if((class(x)!="list")||(class(x[[1]])!="matrix")){
+  #   cat("input should be a list of square matrices","\n")
+  # }
+  nsample = length(x)
+  dims = dim(x[[1]])
+  upper.level = min(log2(dims))
+  if(upper.level<=min.level){
+    cat("invalid min.level, should be less than min(log2(dim(x[[1]]))).","\n")
+  }
+  dim1d = prod(dims)
+  wdt = matrix(NA,nsample,dim1d)
+
+  for(i in 1:nsample){
+    input = x[[i]]
+    wd0 = imwd(input,filter.number=fil.num,family=family)
+
+    for(j in (upper.level-1):min.level){
+      rep.sub = c(eval(parse(text=paste0("wd0$w",j,"L4"))),eval(parse(text=paste0("wd0$w",j,"L1"))),
+                  eval(parse(text=paste0("wd0$w",j,"L2"))),eval(parse(text=paste0("wd0$w",j,"L3"))))
+      wdt[i,1:(4^(j+1))] = rep.sub
+    }
+
+  }
+
+  return(wdt)
+}
+
 reconstr.2D <- function(eta,dims,family="DaubLeAsymm",fil.num=fil.num,min.level=level){
   if(length(eta)!=prod(dims)){cat("length of eta does not match the given dims.","/n")}
   upper.level = min(log2(dims))
