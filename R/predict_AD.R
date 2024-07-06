@@ -1,4 +1,4 @@
-#Evaluates the prediction performance of BSSM model
+#Evaluates the prediction performance of BSSM model using a particular quadrant of a 2-D axial slice from the T1w-MRI scans
 source("func.R")
 library(wavethresh)
 library(matrixcalc)
@@ -7,9 +7,9 @@ library(pracma)
 library(mvtnorm )
 library(MCMCpack)
 library(BayesLogit)
-load("image.dat") #image data after wavelet decomposition
+load("wv1.dat") #image data after wavelet decomposition
 load("res_cov.dat") # response and covariate data
-load("index.dat") #marks the indices corresponding to non-zero wavelet coefficients of the image
+load("ind_c1_part1.dat") #marks the indices corresponding to non-zero wavelet coefficients of the image
 
 dim <- 64
 dims=c(64,64)
